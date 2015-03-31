@@ -34,6 +34,7 @@
         "Benjamin Zapilko";
     dc:creator
         "Thomas Bosch",
+	"Sarven Capadisli",
         "Franck Cotton",
         "Richard Cyganiak",
         "Arofan Gregory",
@@ -200,6 +201,7 @@ disco:isPublic a rdf:Property, owl:DatatypeProperty;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
 
 # isValid property
+#Please note that this property is a feature at risk, since the domain is not a class of Disco. Maintainers of the domain ontology may define their own property.
 disco:isValid a rdf:Property, owl:DatatypeProperty;
     rdfs:label "is valid"@en;
     rdfs:domain skos:Concept;
@@ -221,7 +223,7 @@ disco:percentage a rdf:Property, owl:DatatypeProperty;
     rdfs:label "percentage"@en, "pourcentage"@fr;
 	rdfs:comment "percentage"@en;
     rdfs:domain disco:CategoryStatistics;
-    rdfs:range xsd:decimal;
+    rdfs:range xsd:double;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
 	
 # computationBase property
@@ -237,7 +239,7 @@ disco:cumulativePercentage a rdf:Property, owl:DatatypeProperty;
     rdfs:label "cumulative percentage"@en;
 	rdfs:comment "cumulative percentage"@en;
     rdfs:domain disco:CategoryStatistics;
-    rdfs:range xsd:decimal;
+    rdfs:range xsd:double;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
 
 # purpose property
@@ -258,6 +260,7 @@ disco:subtitle a rdf:Property, owl:DatatypeProperty;
     rdfs:range rdf:langString;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
 
+#Please note that this property is a feature at risk, since the domain is not a class of Disco. Maintainers of the domain ontology may define their own property.
 disco:startDate a rdf:Property, owl:DatatypeProperty;
     rdfs:label "start date"@en;
 	rdfs:comment "start date"@en;
@@ -265,6 +268,7 @@ disco:startDate a rdf:Property, owl:DatatypeProperty;
     rdfs:range xsd:date;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
 
+#Please note that this property is a feature at risk, since the domain is not a class of Disco. Maintainers of the domain ontology may define their own property.
 disco:endDate a rdf:Property, owl:DatatypeProperty;
     rdfs:label "end date"@en;
 	rdfs:comment "end date"@en;
@@ -291,6 +295,13 @@ disco:context a rdf:Property, owl:DatatypeProperty;
 	rdfs:comment "context specifies conditions which have to be fulfilled for specific mappings"@en;
     rdfs:domain disco:Mapping;
     rdfs:range rdf:langString;
+    rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
+	
+disco:variableQuantity a rdf:Property, owl:DatatypeProperty;
+    rdfs:label "variable quantity"@en;
+	rdfs:comment "Variable quantity"@en;
+    rdfs:domain [ a owl:Class; owl:unionOf (disco:LogicalDataSet disco:DataFile)];
+    rdfs:range xsd:nonNegativeInteger;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
 
 #################################################################
@@ -327,15 +338,6 @@ disco:collectionMode a rdf:Property, owl:ObjectProperty;
     rdfs:comment "mode of collection of a Questionnaire"@en;
     rdfs:domain disco:Questionnaire;
     rdfs:range skos:Concept;
-    rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
-
-# containsVariable property
-# * LogicalDataSet -> Variable 0,...,n / 1,...,n
-disco:containsVariable a rdf:Property, owl:ObjectProperty;
-    rdfs:label "contains variable"@en, "contient la variable"@fr;
-	rdfs:comment "points to Variable contained in the LogicalDataSet"@en;
-    rdfs:domain disco:LogicalDataSet;
-    rdfs:range disco:Variable;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
 
 # concept property
@@ -405,6 +407,7 @@ disco:inGroup a rdf:Property, owl:ObjectProperty;
 
 # inputVariable property (links DataSets to DDI variables)
 # * qb:DataSet -> Variable 0,...,n / 0,...,n
+#Please note that this property is a feature at risk, since the domain is not a class of Disco. Maintainers of the domain ontology may define their own property.
 disco:inputVariable a rdf:Property, owl:ObjectProperty;
     rdfs:label "input variable"@en, "variable en entrée"@fr;
 	rdfs:comment "Indicates the original Variable of an aggregated qb:DataSet."@en;
@@ -509,10 +512,11 @@ disco:universe a rdf:Property, owl:ObjectProperty;
 
 # variable property
 # * Study -> Variable 0,...,n / 1,...,n
+# * LogicalDataSet -> Variable 0,...,n / 1,...,n
 disco:variable a rdf:Property, owl:ObjectProperty;
     rdfs:label "variable"@en, "Variable"@de;
-	rdfs:comment "Indicates the Variable of a Study."@en;
-    rdfs:domain disco:Study;
+	rdfs:comment "Indicates the Variable of a Study and points to Variable contained in the LogicalDataSet."@en;
+	rdfs:domain [a owl:Class; owl:unionOf (disco:Study disco:LogicalDataSet)];
     rdfs:range disco:Variable;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
 	
@@ -522,3 +526,7 @@ disco:summaryStatisticsType a rdf:Property, owl:ObjectProperty;
     rdfs:domain disco:SummaryStatistics;
     rdfs:range skos:Concept;
     rdfs:isDefinedBy <http://rdf-vocabulary.ddialliance.org/discovery>.
+
+# Ontology mappings
+# XXX: Temporarily listed here
+disco:Variable owl:equivalentClass <http://semanticscience.org/resource/SIO_000367> .
